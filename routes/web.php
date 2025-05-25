@@ -1,23 +1,26 @@
 <?php
 
 use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PDFController;   // pridėta PDFController
+use Illuminate\Support\Facades\Route;
+
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+Route::get('/send-pdf-email', [PDFController::class, 'sendPDFEmail']); // pridėtas siuntimo el. paštu maršrutas
 
 Route::get('students/trashed', [StudentController::class, 'trashed'])->name('students.trashed');
 
-
 Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
 Route::delete('students/{id}/forceDelete', [StudentController::class, 'forceDelete'])->name('students.forceDelete');
-//Route::get('/students', [StudentController::class, 'index']);
-Route::resource('students', StudentController::class);
-
 
 Route::resource('students', StudentController::class);
-/*Route::get('/', function () {
+
+/*
+Route::get('/', function () {
     return view('welcome');
 });
 */
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -29,7 +32,7 @@ Route::middleware([
 });
 
 Route::prefix('c')->group(function () {
-Route::get('/', [ContactController::class, 'index'])->name('contacts.index');
-Route::get('/contacts/create', [ContactController::class, 'create'])->middleware('auth')->name('contacts.create');
-Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth')->name('contacts.store');
+    Route::get('/', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/create', [ContactController::class, 'create'])->middleware('auth')->name('contacts.create');
+    Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth')->name('contacts.store');
 });
