@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test-email', function () {
     Mail::raw('Tai yra testinis laiškas!', function ($message) {
-        $message->to('recipient@example.com')
+        $message->to('pipyneainis@gmail.com')
                 ->subject('Testas iš Laravel');
     });
 
