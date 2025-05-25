@@ -2,11 +2,24 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StudentController;
-use App\Http\Controllers\PDFController;   // pridėta PDFController
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormController;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-email', function () {
+    Mail::raw('Tai yra testinis laiškas!', function ($message) {
+        $message->to('recipient@example.com')
+                ->subject('Testas iš Laravel');
+    });
+
+    return 'Laiškas išsiųstas!';
+});
+
+Route::post('/submit-form', [FormController::class, 'submit'])->name('submit.form');
 
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
-Route::get('/send-pdf-email', [PDFController::class, 'sendPDFEmail']); // pridėtas siuntimo el. paštu maršrutas
+Route::get('/send-pdf-email', [PDFController::class, 'sendPDFEmail']);
 
 Route::get('students/trashed', [StudentController::class, 'trashed'])->name('students.trashed');
 
